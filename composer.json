@@ -1,5 +1,5 @@
 {
-    "name": "yunhantech/swagger-lumen-yaml",
+    "name": "zouchunxu/swagger-lumen-yaml",
     "type": "library",
     "description": "Swagger文档，用PHP注释可读性差，维护性差，使用YAML格式",
     "keywords": [
