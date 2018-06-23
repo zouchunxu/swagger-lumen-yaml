@@ -40,8 +40,14 @@ class Generator extends \SwaggerLume\Generator
 
             // $swagger->saveAs($filename);
 
-            $security = new SecurityDefinitions();
-            $security->generate($filename);
+            if (strpos(app()->version(), '5.5.*') > -1) {
+                // lumen5.5
+                \SwaggerLume\Generator::appendSecurityDefinitions($filename);
+            } else {
+                // lumen5.6
+                $security = new SecurityDefinitions();
+                $security->generate($filename);
+            }
         }
     }
 

@@ -1,77 +1,40 @@
-每次开发项目时，总是会被要求提供数据字典，每次手动写文档太累了，所以写了这个扩展，`自动读取数据库信息` 并显示在网页上，支持导出 `Html` 、`PDF` 和 `Markdown` 文件。
+SwaggerLumenYaml
+==========
 
-> 1. 导出 `Html` 实际为生成并导出一个离线版本的压缩包。
-> 2. 导出 `PDF` 使用了 [laravel-snappy](https://github.com/barryvdh/laravel-snappy)扩展包
-> 3. 导出 `Markdown` 为数据表增加了锚点链接。
+Swagger 2.0 for Lumen 5
 
-## 安装
+对 [SwaggerLume](https://github.com/DarkaOnLine/SwaggerLume) 进行封装。
+使其支持YAML文档。
 
- 1. 安装包文件
+安装
+============
 
-	``` bash
-	$ composer require yunhantech/laravel-db-doc
-	```
+````
+composer require --dev yunhantech/swagger-lumen
+````
 
-## 配置
 
-1. 注册 ServiceProvider:
-	
-	```php
-	Jormin\DDoc\DDocServiceProvider::class,
-	```
+#### `bootstrap/app.php`
 
-2. 创建配置文件：
+- 去掉门面注释:
+    ```php
+         $app->withFacades();
+    ```
+- 添加配置加载:
+    ```php
+         $app->configure('swagger-lume');
+    ```
+- 注册服务:
+    ```php
+        $app->register(\YunhanTech\Swagger\SwaggerLumenServiceProvider::class);
+    ```
+- 配置YAML目录 `config/swagger-lume.php`：
+    ````php
+    [
+        "paths" => [
+            "yamlAnnotations" => base_path('docs') // 默认目录
+        ]
+    ]
+    ````
 
-	```shell
-	php artisan vendor:publish
-	```
-	
-	执行命令后会在 `config` 目录下生成两个文件：
-	
-	- `laravel-ddoc.php`：本扩展配置文件，用于配置文档底部 `Copyright` 文案和链接。
-	
-	- `snappy.php`：[laravel-snappy](https://github.com/barryvdh/laravel-snappy) 的配置文件，用于配置导出 `pdf` 的选项。
-	
-	    > `pdf.binary` 项配置 `wkhtmltopdf` 执行文件的目录
-	    
-	    > `linux/unix/mac` 系统的执行文件存放于 `项目目录/vendor/h4cc/wkhtmltopdf-[amd64|i386]/bin/` 目录下
-	    
-	    > `wundiws` 系统的执行文件存放于 `项目目录/vendor/wemersonjanuario/wkhtmltopdf-windows/bin/[64bit|32bit]/` 目录下
-
-## 使用
-
-安装扩展后，浏览器访问 `[http|https]://[your domain or ip]/ddoc`
-
-## 参考问题
-
-1. Q：导出的 `PDF` 文件中文不显示或者乱码？
-	
-	A：导致此问题的原因是机器上没有安装中文字体，解决方式如下
-	
-	```
-	1、先从本机或者网络上下载所需的中文字体
-	2、修改字体文件的权限，使root用户以外的用户也可以使用
-		$ cd /usr/share/fonts/chinese/
-	3、建立字体缓存
-		$ sudo mkfontscale
-		$ # 如果提示 mkfontscale: command not found，则需要安装# sudo apt-get install ttf-mscorefonts-installer
-		$ sudo mkfontdir 
-		$ sudo fc-cache -fv
-		$ # 如果提示 fc-cache: command not found，则需要安装# sudo apt-get install fontconfig
-	```
-
-## 参考图
-
-![](https://qiniu.blog.lerzen.com/8a066a40-161b-11e7-92cc-e978e5791021.jpg)
-
-![](https://qiniu.blog.lerzen.com/95bb00d0-161b-11e7-a852-9fb963e13414.jpg)
-
-![](https://qiniu.blog.lerzen.com/a2d1f730-161b-11e7-a10b-458e1139cb1a.jpg)
-
-![](https://qiniu.blog.lerzen.com/cd6439d0-161b-11e7-83ae-01bf49de6b3e.jpg)
-
-![](https://qiniu.blog.lerzen.com/efdd8450-3a87-11e8-8db8-ddc9fa0fb744.jpg)
-
-## License
-
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+#### 其它使用见 [SwaggerLume](https://github.com/DarkaOnLine/SwaggerLume) 文档
